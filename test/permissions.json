@@ -1,7 +1,11 @@
 {
   "repo": {
+    "global_admin": {
+      "global": ["view", "create", "commit", "delete"]
+    },
     "admin": {
-      "user": ["view", "create", "commit", "delete"]
+      "user": ["view", "create", "commit", "delete"],
+      "repo": ["delete"]
     },
     "contributor": {
       "user": ["view", "commit"],

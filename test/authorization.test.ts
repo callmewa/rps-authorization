@@ -4,8 +4,8 @@ import { RpsEvaluator, EntityScopeService, InjectablePermissions, PermissionEval
   PermissionService, PrincipalRoleService, ResourceId, TYPES
 } from "../src/authorization";
 import {users, scopes} from "./data/testdata";
-import CodeEntityScopeService from "./codeEntityScopeService";
-import CodeRoleService from "./codeRoleService";
+import CodeEntityScopeService from "./services/gotEntityScopeService";
+import CodeRoleService from "./services/gotRoleService";
 
 describe("permission tests", () => {
 
@@ -92,6 +92,25 @@ describe("authorization tests", () => {
   // },
   const individualContributor = users["individual contributor"];
 
+  // "outside admin": {
+  //   name: "outside admin",
+  //   id: 6,
+  //   repos: [
+  //     {
+  //       id: "r6",
+  //       roles: ["admin"]
+  //     }
+  //   ],
+  // },
+  const outsideAdmin = users["outside admin"];
+
+  // "global admin": {
+  //   name: "global admin",
+  //   id: 7,
+  //   userRoles: ["global_admin"]
+  // },
+  const globalAdmin = users["global admin"];
+
   const container = new Container();
   container.bind<PermissionService>(TYPES.PermissionService).to(InjectablePermissions);
   container.bind<string>(TYPES.FilePath).toConstantValue("test/permissions.json");
@@ -156,6 +175,28 @@ describe("authorization tests", () => {
     async () => expect(await rpsEvaluator.hasPermission(superstar, "r5o1", "repo", "delete")).toBe(false));
   it("superstar should not have [commit] permission on random r6[repo] resource at [any] scope",
     async () => expect(await rpsEvaluator.hasPermission(superstar, "r6", "repo", "delete")).toBe(false));
+
+  // outside admin
+  it("outsideAdmin should have [delete] permission on team r6[repo] resource at [repo] scope",
+    async () => expect(await rpsEvaluator.hasPermission(outsideAdmin, "r6", "repo", "delete")).toBe(true));
+  it("outsideAdmin should not have [delete] permission on team r5o1[repo] resource at [any] scope",
+    async () => expect(await rpsEvaluator.hasPermission(outsideAdmin, "r5o1", "repo", "delete")).toBe(false));
+  it("outsideAdmin should not have [delete] permission on team r4t2[repo] resource at [any] scope",
+    async () => expect(await rpsEvaluator.hasPermission(outsideAdmin, "r4t2", "repo", "delete")).toBe(false));
+
+  // super admin
+  it("globalAdmin should have [delete] permission on team r6[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r6", "repo", "delete")).toBe(true));
+  it("globalAdmin should have [delete] permission on team r5o1[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r5o1", "repo", "delete")).toBe(true));
+  it("globalAdmin should have [delete] permission on team r4t2[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r4t2", "repo", "delete")).toBe(true));
+  it("globalAdmin should have [delete] permission on team r3t2[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r3t2", "repo", "delete")).toBe(true));
+  it("globalAdmin should have [delete] permission on team r2t1[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r2t1", "repo", "delete")).toBe(true));
+  it("globalAdmin should have [delete] permission on team r1u1[repo] resource at [global] scope",
+    async () => expect(await rpsEvaluator.hasPermission(globalAdmin, "r1u1", "repo", "delete")).toBe(true));
 
   // org with only specific indepedent contributor specified
   it("user with [contributor] should have [commit] permission on [repo] resource at [other_user] scope ",

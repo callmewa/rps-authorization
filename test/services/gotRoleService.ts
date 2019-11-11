@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { PrincipalRoleService, ScopeId } from "../src/authorization";
-import { CodeHubUser } from "./types/model";
+import { PrincipalRoleService, ScopeId } from "../../src/authorization";
+import { GotHubUser } from "../types/model";
 
 function formatRoles(roles: Set<string>): Set<string> {
   return new Set([...roles].map(role => {
@@ -16,10 +16,10 @@ function formatRoles(roles: Set<string>): Set<string> {
  * get all roles belongs to the user
  * @param user
  */
-function getAllRoles(user: CodeHubUser) {
+function getAllRoles(user: GotHubUser) {
   let userRoles = new Set<string>();
-  if (user.roles) {
-    userRoles = new Set ([...user.roles]);
+  if (user.userRoles) {
+    userRoles = new Set([...user.userRoles]);
   }
   const teams = user.teams;
   if (teams) {
@@ -33,7 +33,12 @@ function getAllRoles(user: CodeHubUser) {
       userRoles = new Set([...member.roles, ...userRoles]);
     }
   }
-
+  const repos = user.repos;
+  if (repos) {
+    for (const member of repos) {
+      userRoles = new Set([...member.roles, ...userRoles]);
+    }
+  }
   return userRoles;
 }
 
@@ -42,7 +47,7 @@ function getAllRoles(user: CodeHubUser) {
  * @param user
  * @param scopeIds
  */
-function getUserRoles(user: CodeHubUser, scopeIds: ScopeId[]) {
+function getUserRoles(user: GotHubUser, scopeIds: ScopeId[]) {
   if (scopeIds && scopeIds.length && scopeIds.includes(user.id)) {
     return getAllRoles(user);
   } else {
@@ -55,7 +60,7 @@ function getUserRoles(user: CodeHubUser, scopeIds: ScopeId[]) {
  * @param user
  * @param scopeIds
  */
-function getTeamRoles(user: CodeHubUser, scopeIds: ScopeId[]) {
+function getTeamRoles(user: GotHubUser, scopeIds: ScopeId[]) {
   let userRoles = new Set<string>();
   const teams = user.teams;
   if (scopeIds && scopeIds.length && teams && teams.length) {
@@ -74,12 +79,31 @@ function getTeamRoles(user: CodeHubUser, scopeIds: ScopeId[]) {
  * @param user
  * @param scopeIds
  */
-function getOrgRoles(user: CodeHubUser, scopeIds: ScopeId[]) {
+function getOrgRoles(user: GotHubUser, scopeIds: ScopeId[]) {
   let userRoles = new Set<string>();
   const orgs = user.orgs;
   if (scopeIds && scopeIds.length && orgs && orgs.length) {
     for (const scopeId of scopeIds) {
       const localMember = orgs.find(member => scopeId === member.id);
+      if (localMember) {
+        userRoles = new Set([...localMember.roles, ...userRoles]);
+      }
+    }
+  }
+  return userRoles;
+}
+
+/**
+ * get all repo roles for the repo (scope) ids
+ * @param user
+ * @param scopeIds
+ */
+function getRepoRoles(user: GotHubUser, scopeIds: ScopeId[]) {
+  let userRoles = new Set<string>();
+  const repos = user.repos;
+  if (scopeIds && scopeIds.length && repos && repos.length) {
+    for (const scopeId of scopeIds) {
+      const localMember = repos.find(member => scopeId === member.id);
       if (localMember) {
         userRoles = new Set([...localMember.roles, ...userRoles]);
       }
@@ -96,6 +120,7 @@ export default class CodeRoleService implements PrincipalRoleService {
       case "user": return getUserRoles(user, scopeIds);
       case "team": return getTeamRoles(user, scopeIds);
       case "org": return getOrgRoles(user, scopeIds);
+      case "repo": return getRepoRoles(user, scopeIds);
       case "other_user": return getUserRoles(user, scopeIds);
       case "other_team": return getTeamRoles(user, scopeIds);
       case "other_org": return getOrgRoles(user, scopeIds);

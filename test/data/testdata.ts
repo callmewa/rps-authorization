@@ -2,12 +2,11 @@ export const users = {
   "selfish admin": {
     name: "selfish local admin",
     id: 1,
-    roles: ["admin"],
+    userRoles: ["admin"],
   },
   "team player": {
     name: "team player",
     id: 2,
-    roles: [],
     teams: [
       {
         id: "t1",
@@ -24,7 +23,6 @@ export const users = {
   "org player": {
     name: "org player",
     id: 3,
-    roles: [],
     orgs: [
       {
         id: "o1",
@@ -35,7 +33,7 @@ export const users = {
   "superstar": {
     name: "super star",
     id: 4,
-    roles: ["admin", "contributor"],
+    userRoles: ["admin", "contributor"],
     teams: [
       {
         id: "t1",
@@ -56,7 +54,22 @@ export const users = {
   "individual contributor": {
     name: "individual contributor",
     id: 5,
-    roles: ["contributor"],
+    userRoles: ["contributor"],
+  },
+  "outside admin": {
+    name: "outside admin",
+    id: 6,
+    repos: [
+      {
+        id: "r6",
+        roles: ["admin"]
+      }
+    ],
+  },
+  "global admin": {
+    name: "global admin",
+    id: 7,
+    userRoles: ["global_admin"]
   },
 };
 
@@ -99,4 +112,4 @@ export const codeRepos = [
   }
 ];
 
-export const scopes = ["global", "user", "team", "org", "other_user", "other_team", "other_org"];
+export const scopes = ["global", "user", "team", "org", "repo", "other_user", "other_team", "other_org"];

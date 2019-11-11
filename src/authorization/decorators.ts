@@ -1,3 +1,7 @@
+/**
+ * reference implementation for authorization decorators
+ */
+
 import httpContext from "express-http-context";
 import httpError from "http-errors";
 import "reflect-metadata";
