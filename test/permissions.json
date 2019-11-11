@@ -1,0 +1,24 @@
+{
+  "repo": {
+    "admin": {
+      "user": ["view", "create", "commit", "delete"]
+    },
+    "contributor": {
+      "user": ["view", "commit"],
+      "other_user": ["view", "commit"]
+    },
+    "team_admin": {
+      "team": ["view", "create", "commit", "delete"]
+    },
+    "team_contributor": {
+      "team": ["create", "commit"],
+      "org": ["create", "commit"],
+      "other_team": ["view", "commit"],
+      "other_org": ["view", "commit"]
+    },
+    "org_contributor": {
+      "org": ["view", "commit"],
+      "other_org": ["view", "commit"]
+    }
+  }
+}
