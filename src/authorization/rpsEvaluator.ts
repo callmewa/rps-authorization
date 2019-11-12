@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "./injectionTypes";
-import { PrincipalRoleService, EntityScopeService, PermissionEvaluator, ResourceId} from "./interfaces";
-import { PermissionService } from "./permissions";
+import { PrincipalRoleService, EntityScopeService, PermissionEvaluator, ResourceId, PermissionService} from "./interfaces";
 
 const DefaultScopes = ["user", "account", "global"];
 

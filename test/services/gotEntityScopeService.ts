@@ -4,7 +4,7 @@ import { codeRepos } from "../data/testdata";
 import { GotRepo } from "../types/model";
 
 @injectable()
-export default class CodeEntityScopeService implements EntityScopeService {
+export default class GotEntityScopeService implements EntityScopeService {
   public async getScopeIds(resource: string, id: ResourceId, scope: string): Promise<ScopeId[]> {
     if (resource !== "repo") {
       throw new Error(`Invalid resource ${resource}`);

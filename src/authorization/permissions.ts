@@ -2,6 +2,7 @@
 import fs from "fs-extra";
 import { inject, injectable } from "inversify";
 import { TYPES } from "./injectionTypes";
+import { Resource, PermissionService, Permission, Scope, Role } from "./interfaces";
 
 type NonEmptyString = never;
 function isNonEmptyString(arg: any): arg is NonEmptyString {
@@ -13,10 +14,6 @@ function isArrayContainingNonEmptyString(arg: any): arg is ArrayContainingNonEmp
   return Array.isArray(arg) && arg.every((str: string) => typeof str === "string" && str.length > 0);
 }
 
-type Permission = string;
-type Resource = string;
-type Role = string;
-type Scope = string;
 type PermissionSet = Set<Permission>;
 type PermissionScopeMap = Map<Scope, PermissionSet>;
 type PermissionRoleMap = Map<Role, PermissionScopeMap>;
@@ -40,12 +37,8 @@ function permissionObjectToMap(o: any) {
   return m;
 }
 
-export interface PermissionService {
-  getPermissions(resource: Resource, roles: Set<Role>, scope: string): Set<string>;
-}
-
 @injectable()
-export class InjectablePermissions implements PermissionService {
+export class RrspPermissions implements PermissionService {
   private readonly permissionResourceMap: PermissionResourceMap = new Map();
   constructor(@inject(TYPES.FilePath) filePath: string = "permissions.json") {
     const text = fs.readFileSync(filePath, "utf8");

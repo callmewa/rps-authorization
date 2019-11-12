@@ -1,16 +1,16 @@
 import { Container, injectable } from "inversify";
 import "reflect-metadata";
-import { RpsEvaluator, EntityScopeService, InjectablePermissions, PermissionEvaluator,
+import { RpsEvaluator, EntityScopeService, RrspPermissions, PermissionEvaluator,
   PermissionService, PrincipalRoleService, ResourceId, TYPES
 } from "../src/authorization";
 import {users, scopes} from "./data/testdata";
-import CodeEntityScopeService from "./services/gotEntityScopeService";
-import CodeRoleService from "./services/gotRoleService";
+import GotEntityScopeService from "./services/gotEntityScopeService";
+import GotRoleService from "./services/gotRoleService";
 
 describe("permission tests", () => {
 
   const container = new Container();
-  container.bind<PermissionService>(TYPES.PermissionService).to(InjectablePermissions);
+  container.bind<PermissionService>(TYPES.PermissionService).to(RrspPermissions);
   container.bind<string>(TYPES.FilePath).toConstantValue("test/permissions.json");
   const permissions: PermissionService = container.get(TYPES.PermissionService);
 
@@ -112,11 +112,11 @@ describe("authorization tests", () => {
   const globalAdmin = users["global admin"];
 
   const container = new Container();
-  container.bind<PermissionService>(TYPES.PermissionService).to(InjectablePermissions);
+  container.bind<PermissionService>(TYPES.PermissionService).to(RrspPermissions);
   container.bind<string>(TYPES.FilePath).toConstantValue("test/permissions.json");
   container.bind<string[]>(TYPES.Scopes).toConstantValue(scopes);
-  container.bind<EntityScopeService>(TYPES.EntityScopeService).to(CodeEntityScopeService);
-  container.bind<PrincipalRoleService>(TYPES.PrincipalRoleService).to(CodeRoleService);
+  container.bind<EntityScopeService>(TYPES.EntityScopeService).to(GotEntityScopeService);
+  container.bind<PrincipalRoleService>(TYPES.PrincipalRoleService).to(GotRoleService);
   container.bind<PermissionEvaluator>(TYPES.PermissionEvaluator).to(RpsEvaluator);
   const rpsEvaluator: RpsEvaluator = container.get(TYPES.PermissionEvaluator);
 

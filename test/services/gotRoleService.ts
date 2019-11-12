@@ -2,16 +2,6 @@ import { injectable } from "inversify";
 import { PrincipalRoleService, ScopeId } from "../../src/authorization";
 import { GotHubUser } from "../types/model";
 
-function formatRoles(roles: Set<string>): Set<string> {
-  return new Set([...roles].map(role => {
-    let formattedRole = role.toLowerCase();
-    if (formattedRole.startsWith("role_")) {
-      formattedRole = formattedRole.substring(5);
-    }
-    return formattedRole;
-  }));
-}
-
 /**
  * get all roles belongs to the user
  * @param user
@@ -113,7 +103,7 @@ function getRepoRoles(user: GotHubUser, scopeIds: ScopeId[]) {
 }
 
 @injectable()
-export default class CodeRoleService implements PrincipalRoleService {
+export default class GotRoleService implements PrincipalRoleService {
   public getRoles(user: any, scope: string, scopeIds: ScopeId[]): Set<string> {
     switch (scope) {
       case "global": return getAllRoles(user);
