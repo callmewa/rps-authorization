@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "./injectionTypes";
 import { PrincipalRoleService, EntityScopeService, PermissionEvaluator, ResourceId, PermissionService} from "./interfaces";
 
-const DefaultScopes = ["user", "account", "global"];
+const DefaultScopes = ["user", "group", "global"];
 
 @injectable()
 export class RpsEvaluator implements PermissionEvaluator {

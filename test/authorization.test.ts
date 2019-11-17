@@ -151,7 +151,7 @@ describe("authorization tests", () => {
     async () => expect(await rpsEvaluator.hasPermission(teamPlayer, "r3t2", "repo", "commit")).toBe(false));
 
   // org player
-  it("orgPlayer should not have [commit] permission on org [repo] resource at [any] scope ",
+  it("orgPlayer should not have [delete] permission on org [repo] resource at [any] scope ",
     async () => expect(await rpsEvaluator.hasPermission(orgPlayer, "r5o1", "repo", "delete")).toBe(false));
   it("orgPlayer should have [commit] permission on org [repo] resource at [org] scope ",
     async () => expect(await rpsEvaluator.hasPermission(orgPlayer, "r5o1", "repo", "commit")).toBe(true));
