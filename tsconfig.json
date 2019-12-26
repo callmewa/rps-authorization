@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": true,
+    "declaration": true,
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "esnext",

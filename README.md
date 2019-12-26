@@ -28,7 +28,8 @@ Scopes can be arbitrarily defined; predefined scopes are global, group (Group), 
 ## Design Principles
 
 * Separation of authorization concerns from business logic.  Authorization should be able to determine whether someone is able to perform an action on a resource.  
-Favor RP over roles for access control.  RP are much more fine grained and can be attached to any number of roles.  
+* Favor RP over roles for access control.  RP are much more fine grained and can be attached to any number of roles.  
+* Favor roles over RP for principal assignment.  Roles easier to manage than list of RPs.  
 * Scopes should model the organization structure as much as possible.  Doing so will reduce confusion and abstraction.  
 * Scopes supports inheritance and polymorphism.  For example, a `group` scope may be used to describe any number types of groups.  For example, a company may contain many individual groups of Sales, Support and Engineering.  All scopeIds of the same scope must be unique.  
 * ScopeIds can oversee each other.  The philosophy behind this is fairly simple: one user, group, organization should be able to “oversee” another user, group, organization; one is granted certain RPs on overseen resourceIds.  Overseer scopes narrows the scope of specific RPs when assigned to the desired roles.
@@ -39,13 +40,13 @@ Favor RP over roles for access control.  RP are much more fine grained and can b
 
 * each resourceId is associated with the necessary ScopeIds.  
 
-```json
+```javascript
 {resourceId: $id,  
 authorization: { $scope: [$scopeIds...] ...} }
 ```
 
-* each role of a principal is associated with the necessary ScopeIds.  All roles are associated with the global scope.  
-* Role -0< (0 to many) Scopes -0< RPs  
+* every role is associated with the necessary ScopeIds.  All roles are associated with the global scope.  
+* **Role** -0< (0 to many) **Scopes** -0< **RPs**  
 * Global scope has no scopeId  
 
 ## Generalized Solution

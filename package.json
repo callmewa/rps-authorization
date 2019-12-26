@@ -1,12 +1,13 @@
 {
   "name": "rps-authorization",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "generalized authorization library implementing RPS (Resource Permission Scope) Authorization algorithm",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/*",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-    "tsc": "tsc",
+    "build": "tsc",
     "test": "jest"
   },
   "keywords": [],
