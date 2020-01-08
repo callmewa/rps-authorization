@@ -9,8 +9,8 @@
     "target": "esnext",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
+    "sourceMap": false,
+    "outDir": "lib",
     "baseUrl": ".",
     "paths": {
       "*": [

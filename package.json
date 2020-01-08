@@ -4,14 +4,15 @@
   "description": "generalized authorization library implementing RPS (Resource Permission Scope) Authorization algorithm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["lib/**/*"],
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rimraf lib/*",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["authorization", "permissions", "rbac", "abac", "access control", "roles"],
+  "author": "callmewa",
   "license": "MIT",
   "dependencies": {
     "inversify": "5.0.1"

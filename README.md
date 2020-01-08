@@ -3,7 +3,7 @@
 ## run tests
 
 ``` bash
-npx jest
+npm test
 ```
 
 ## Quick Start
