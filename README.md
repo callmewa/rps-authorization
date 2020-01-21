@@ -8,7 +8,8 @@ npm test
 
 ## Quick Start
 
-check **./test** for a comprehensive example
+check **./test** for a comprehensive example  
+learn more about RPS [medium article](https://medium.com/@callmewa/the-birth-of-rps-e6bfc5eb41c5)  
 
 ## Introduction
 
