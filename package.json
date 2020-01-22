@@ -1,6 +1,6 @@
 {
   "name": "rps-authorization",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "generalized authorization library implementing RPS (Resource Permission Scope) Authorization algorithm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,6 +21,10 @@
     "access control",
     "roles"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/callmewa/rps-authorization"
+  },
   "author": "callmewa",
   "license": "MIT",
   "dependencies": {
